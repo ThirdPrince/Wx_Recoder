@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view"
+        android:layout_width="match_parent"
+        android:background="#ebebeb"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.example.wx_recoder.view.AudioRecorderButton
+            android:id="@+id/audio_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="7dp"
+            android:enabled="true"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textColor="#727272"
+            android:background="@drawable/btn_recorder_normal"
+            android:minHeight="0dp"
+            android:text="@string/str_recorder_normal"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ccc"
+            />
+    </FrameLayout>
+
+</LinearLayout>
