@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 {
                     anim.setBackgroundResource(R.drawable.adj);
                     anim = null;
-
                 }
 
                  anim = view.findViewById(R.id.id_recorder_anim) ;
@@ -78,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 MediaPlayManager.play(recorder.filePath, new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
-                        animationDrawable.stop();
 
-                        animationDrawable.stop();
+                        anim.setBackgroundResource(R.drawable.adj);
+
                     }
                 });
             }

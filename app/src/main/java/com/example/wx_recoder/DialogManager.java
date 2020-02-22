@@ -45,6 +45,7 @@ public class DialogManager {
         mDialog = builder.create();
         mDialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         mDialog.show();
+        Log.e(TAG,"showRecordingDialog");
 
     }
 
@@ -63,7 +64,7 @@ public class DialogManager {
             mIcon.setImageResource(R.drawable.cancel);
             //mDialog.dismiss();
             mVoice.setVisibility(View.GONE);
-
+          //  mDialog.dismiss();
         }
     }
     public void dismissDialog()
@@ -71,6 +72,7 @@ public class DialogManager {
         if(mDialog != null && mDialog.isShowing())
         {
             mDialog.dismiss();
+            mDialog = null;
 
         }
     }
@@ -79,14 +81,18 @@ public class DialogManager {
     {
         if(mDialog != null && mDialog.isShowing())
         {
-            mTips.setText(R.string.str_recorder_cancel);
-
+            mVoice.setVisibility(View.GONE);
+            mIcon.setImageResource(R.drawable.voice_to_short);
+            mTips.setText(R.string.str_recorder_too_short);
+            Log.e(TAG,"tooShort");
         }
     }
 
     public void updateVoiceLevel(int i) {
-        Log.e(TAG,"updateVoiceLevel=="+i);
+        //Log.e(TAG,"updateVoiceLevel=="+i);
         //mIcon.setImageResource(R.drawable.volume_img_bg);
-        mVoice.setImageLevel(i);
+        if(mDialog != null && mDialog.isShowing()) {
+            mVoice.setImageLevel(i);
+        }
     }
 }

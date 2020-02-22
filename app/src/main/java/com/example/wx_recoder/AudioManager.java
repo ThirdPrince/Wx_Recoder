@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 /**
- * 录音管理
+ * 录音管理 音频的录制
  */
 public class AudioManager {
 

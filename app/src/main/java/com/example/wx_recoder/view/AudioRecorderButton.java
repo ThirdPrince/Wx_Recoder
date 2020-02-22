@@ -27,9 +27,19 @@ public class AudioRecorderButton extends AppCompatButton implements AudioManager
 
     private static final int DISTANCE_Y_CANCEL = 50;
 
+    /**
+     * 默认状态
+     */
     private static final int STATE_NORMAL = 1;
 
+    /**
+     * 录制状态
+     */
     private static final int STATE_RECORDING = 2;
+
+    /**
+     * 取消状态
+     */
 
     private static final int STATE_CANCEL = 3;
 
@@ -117,10 +127,12 @@ public class AudioRecorderButton extends AppCompatButton implements AudioManager
         setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                //TODO 真正显示是在audio prepare 以后
+
                 mReady = true ;
                 dialogManager = new DialogManager(context);
                 audioManager.prepareAudio();
-                return true;
+                return false;
             }
         });
     }
@@ -142,7 +154,6 @@ public class AudioRecorderButton extends AppCompatButton implements AudioManager
         switch (action)
         {
             case MotionEvent.ACTION_DOWN:
-                isRecord = true ;
                 changeState(STATE_RECORDING);
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -167,21 +178,30 @@ public class AudioRecorderButton extends AppCompatButton implements AudioManager
                     reset();
                     return  super.onTouchEvent(event);
                 }
-                if(!isRecord)
+
+                if(!isRecord || mTime<0.6f)
                 {
                     dialogManager.tooShort();
-                }
-                if(mCurrentState == STATE_RECORDING)
+                    audioManager.cancel();
+                    handler.sendEmptyMessageDelayed(MSG_DIALOG_DISMISS,1300);
+                }else if(mCurrentState == STATE_RECORDING)
                 {
                     //release
                     // callbackToAct
                    // changeState(STATE_RECORDING);
-                    onAudioFinishRecorderListener.onFinish(mTime,audioManager.getCurrentFilePath());
+                    dialogManager.dismissDialog();
+                    audioManager.release();
+                    onAudioFinishRecorderListener.onFinish(mTime, audioManager.getCurrentFilePath());
+
+
+                   // }
 
                 }else if(mCurrentState == STATE_CANCEL)
                 {
                     //changeState(STATE_CANCEL);
                     audioManager.cancel();
+                    dialogManager.dismissDialog();
+
                 }
                 reset();
                 break;
@@ -218,7 +238,7 @@ public class AudioRecorderButton extends AppCompatButton implements AudioManager
                     setText(R.string.str_recorder_recording);
                     if(isRecord)
                     {
-                        // Dialog recording()
+                         //dialogManager.recording();
                     }
                     break;
                 case STATE_CANCEL:
@@ -243,7 +263,10 @@ public class AudioRecorderButton extends AppCompatButton implements AudioManager
         if(audioManager != null) {
             audioManager.release();
         }
-        dialogManager.dismissDialog();
+        if(dialogManager!= null)
+        {
+            //dialogManager.dismissDialog();
+        }
     }
 
 
